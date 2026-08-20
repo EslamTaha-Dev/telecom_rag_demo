@@ -23,6 +23,10 @@ class Config:
         return self.config["app"]["version"]
 
     @property
+    def app_description(self) -> str:
+        return self.config["app"]["description"]
+
+    @property
     def vector_index_path(self) -> str:
         return self.config["data"]["vector_index_path"]
 
@@ -30,10 +34,6 @@ class Config:
     def chunk_size(self) -> int:
         return int(self.config["data"]["chunk_size"])
 
-    @property
-    def app_description(self) -> str: 
-        return self.config["app"]["description"] or self.app_description
-    
     @property
     def chunk_overlap(self) -> int:
         return int(self.config["data"]["chunk_overlap"])
@@ -59,22 +59,39 @@ class Config:
         return self.config["models"]["llm_model_name"]
 
     @property
-    def temperature(self) -> float:
-        return float(self.config["models"]["temperature"])
-
-    @property
     def k_retrieval(self) -> int:
         return int(self.config["models"]["k_retrieval"])
 
     @property
+    def max_input_tokens(self) -> int:
+        return int(self.config["models"]["max_input_tokens"])
+
+    @property
+    def max_output_tokens(self) -> int:
+        return int(self.config["models"]["max_output_tokens"])
+
+    @property
+    def thinking_level(self) -> str:
+        return self.config["models"]["thinking_level"]
+
+    @property
+    def input_price_per_million(self) -> float:
+        return float(self.config["pricing"]["input_price_per_million"])
+
+    @property
+    def output_price_per_million(self) -> float:
+        return float(self.config["pricing"]["output_price_per_million"])
+
+    @property
     def google_api_key(self) -> str:
         key = os.getenv("GOOGLE_API_KEY")
+
         if not key:
             raise ValueError(
                 "GOOGLE_API_KEY environment variable is not set in .env file!"
             )
+
         return key
 
 
-# Global config instance
 settings = Config()

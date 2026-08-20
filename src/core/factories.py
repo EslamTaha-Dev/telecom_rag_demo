@@ -28,10 +28,18 @@ class ModelFactory:
     @lru_cache(maxsize=1)
     def get_llm():
         if settings.llm_provider.lower() == "gemini":
-            logger.info(f"Initializing LLM (Provider: {settings.llm_provider})...")
+            logger.info(
+                f"Initializing LLM "
+                f"(Provider: {settings.llm_provider}, "
+                f"Model: {settings.llm_model_name})..."
+            )
 
             return ChatGoogleGenerativeAI(
-                model=settings.llm_model_name, temperature=settings.temperature
+                model=settings.llm_model_name,
+                max_output_tokens=settings.max_output_tokens,
+                thinking_level=settings.thinking_level,
             )
-        else:
-            raise ValueError(f"Unsupported LLM provider: {settings.llm_provider}")
+
+        raise ValueError(
+            f"Unsupported LLM provider: {settings.llm_provider}"
+        )
